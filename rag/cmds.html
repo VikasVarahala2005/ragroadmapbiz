@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Commands</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Tree</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="cmds.html">Cmds</a>
+            <a href="basics.html">Basics</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="sequence.html">Sequence</a>
+            <a href="reference.html">Reference</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card">
+            <h1>Essential Terminal & Python Commands</h1>
+            
+            <h2>1. Virtual Environment Setup</h2>
+            <pre><code>python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate</code></pre>
+
+            <h2>2. Library Installation</h2>
+            <pre><code>pip install langchain langchain-community langchain-openai chromadb faiss-cpu pypdf tiktoken</code></pre>
+
+            <h2>3. Environment Variables (.env)</h2>
+            <pre><code>export OPENAI_API_KEY="your-api-key-here"</code></pre>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

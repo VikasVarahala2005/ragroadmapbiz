@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Architectures</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .arch-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background-color: #0f172a;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .arch-table th, .arch-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        .arch-table th {
+            background-color: #1e293b;
+            color: #60a5fa;
+            font-size: 1rem;
+        }
+
+        .arch-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .arch-table tr:hover {
+            background-color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Tree</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="cmds.html">Cmds</a>
+            <a href="basics.html">Basics</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="sequence.html">Sequence</a>
+            <a href="reference.html">Reference</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card">
+            <h1>RAG Architectures</h1>
+            <p>A comprehensive breakdown of core RAG architectures, their retrieval types, and primary use cases.</p>
+
+            <table class="arch-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Retrieval Type</th>
+                        <th>Use Cases</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Naive / Standard RAG</strong></td>
+                        <td>Vector Only</td>
+                        <td>FAQs / Chatbots</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hybrid RAG</strong></td>
+                        <td>Vector + Keyword</td>
+                        <td>Enterprise Search / E-commerce</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RAG with Memory</strong></td>
+                        <td>Contextual Memory</td>
+                        <td>Support assistant / Chatbots</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Graph RAG</strong></td>
+                        <td>Graph-based</td>
+                        <td>Legal / R&D / Knowledge-heavy systems</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agentic RAG</strong></td>
+                        <td>Multi-step + Tools</td>
+                        <td>Investigations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multimodal RAG</strong></td>
+                        <td>Works With Text and Other Format, Image, Video, Audio</td>
+                        <td>Visual Q&A (medical, security)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Self-RAG</strong></td>
+                        <td>Reflective</td>
+                        <td>Regulated Domains</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Base & CSS Variables
+   ========================================================================== */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #1e40af;
+    --background-color: #f8fafc;
+    --surface-color: #ffffff;
+    --text-color: #0f172a;
+    --text-muted: #475569;
+    --border-color: #e2e8f0;
+    
+    /* Code styling */
+    --code-bg: #1e293b;
+    --code-text: #f8fafc;
+    --inline-code-bg: #f1f5f9;
+    
+    /* Callout & Alert colors */
+    --accent-green: #16a34a;
+    --accent-green-bg: #f0fdf4;
+    --accent-red: #dc2626;
+    --accent-red-bg: #fef2f2;
+    --accent-amber: #d97706;
+    --accent-amber-bg: #fffbeb;
+    --accent-blue-bg: #f1f5f9;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+/* Navigation Bar Container */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--surface-color, #ffffff);
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation Links */
+nav a {
+    color: var(--text-muted, #475569);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover & Active States */
+nav a:hover {
+    color: var(--primary-color, #2563eb);
+    background-color: #eff6ff;
+}
+
+/* Active Page Marker (Optional: add class="active" to the current page link) */
+nav a.active {
+    color: #ffffff;
+    background-color: var(--primary-color, #2563eb);
+    font-weight: 600;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================================================================
+   Layout Containers
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+header p {
+    margin: 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Navigation / Table of Contents */
+nav.toc {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+nav.toc h2 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+nav.toc ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+nav.toc ul li {
+    margin-bottom: 0.5rem;
+}
+
+nav.toc ul ul {
+    padding-left: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+nav.toc a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+nav.toc a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* Sections & Cards */
+section.module,
+.card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   Typography & Headings
+   ========================================================================== */
+h2.module-title {
+    color: var(--secondary-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+    font-size: 1.8rem;
+}
+
+h3.part-title {
+    color: var(--primary-color);
+    background: #eff6ff;
+    padding: 0.5rem 1rem;
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 4px 4px 0;
+    margin-top: 2rem;
+}
+
+h4.topic-title {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.25rem;
+}
+
+p, li {
+    color: var(--text-color);
+}
+
+/* ==========================================================================
+   Callout Boxes
+   ========================================================================== */
+.highlight-box {
+    background-color: var(--accent-blue-bg);
+    border-left: 4px solid var(--secondary-color);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.alert-box {
+    background-color: var(--accent-red-bg);
+    border-left: 4px solid var(--accent-red);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.success-box {
+    background-color: var(--accent-green-bg);
+    border-left: 4px solid var(--accent-green);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.warning-box {
+    background-color: var(--accent-amber-bg);
+    border-left: 4px solid var(--accent-amber);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+    color:#60a5fa;
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f5f9;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #f8fafc;
+    color:#60a5fa;
+}
+
+/* ==========================================================================
+   Code Blocks & Syntax
+   ========================================================================== */
+pre {
+    background-color: var(--code-bg);
+    color: var(--code-text);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: var(--inline-code-bg);
+    color: #0f172a;
+    padding: 0.15rem 0.38rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+.diagram {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    white-space: pre;
+    background: var(--code-bg);
+    color: #38bdf8;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.2;
+    margin: 1rem 0;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 2rem;
+}

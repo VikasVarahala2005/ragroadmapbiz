@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Tree Diagram</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Tree</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="cmds.html">Cmds</a>
+            <a href="basics.html">Basics</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="sequence.html">Sequence</a>
+            <a href="reference.html">Reference</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card" style="text-align: center;">
+            <h1>The Tree Diagram of RAG</h1>
+            <p style="margin-bottom: 2rem;">Hierarchical Breakdown of Retrieval-Augmented Generation Components</p>
+            
+            <div style="text-align: left; background-color: #0f172a; padding: 1.5rem; border-radius: 8px;">
+                <pre><code>
+RAG Architecture Tree
+├── 1. Data Ingestion & Indexing
+│   ├── Document Loaders (PyPDF, Text, Web)
+│   ├── Text Splitters (RecursiveCharacterTextSplitter)
+│   └── Vector Store (Chroma, Pinecone, FAISS)
+├── 2. Retrieval Phase
+│   ├── Query Transformation (Multi-Query, Hypothetical Document Embeddings)
+│   ├── Vector Search (Cosine Similarity, MMR)
+│   └── Re-ranking (Cross-Encoders, Cohere)
+└── 3. Generation Phase
+    ├── Context Formatting
+    ├── Prompt Templates
+    └── LLM Generation (OpenAI, HuggingFace)
+                </code></pre>
+            </div>
+        </div>
+        <div class="card" style="text-align: center;">
+            <h1>The pipeline Diagram of RAG</h1>
+            <p style="margin-bottom: 2rem;">Full Component Breakdown Based on Complete RAG Pipeline Architecture</p>
+            
+            <div style="text-align: left; background-color: #0f172a; padding: 1.5rem; border-radius: 8px;">
+                <pre><code>
+RAG Complete Pipeline Tree
+├── 1. Ingestion Pipeline
+│   ├── Doc Store (PDFs / Web / DB)
+│   │   └── Loader Stage
+│   ├── Text Chunking
+│   │   └── Strategies: Recursive / Token
+│   └── Embedding Engine
+│       ├── Store Execution
+│       └── Engines: OpenAI / BGE
+├── 2. Query & Retrieval Module
+│   ├── User Query
+│   │   └── Input Prompt & Submission
+│   ├── Retriever Module
+│   │   ├── Dense Search
+│   │   └── Hybrid Search: BM25 + Vector
+│   └── Vector DB
+│       ├── Pinecone / Chroma
+│       └── Output: Candidates
+├── 3. Context Processing & Re-ranking
+│   ├── Re-ranker
+│   │   └── Model: Cross-Encoder
+│   └── Prompt Context Buffer
+│       ├── Selection: Top-K Chunks
+│       └── Structure: System + Context
+└── 4. Generation & Evaluation
+    ├── LLM Generator
+    │   ├── Models: GPT-4 / Claude / Llama
+    │   └── Action: Synthesize Output
+    └── Eval Framework
+        └── Metrics Tools: Ragas / TruLens
+                </code></pre>
+            </div>
+        </div>
+    </main>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete RAG Mastery Guide (Modules 1-3)</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+.toc{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+            <a href="index.html">Tree</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="cmds.html">Cmds</a>
+            <a href="basics.html">Basics</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="sequence.html">Sequence</a>
+            <a href="reference.html">Reference</a>
+        </nav>
+    <h1>Retrieval-Augmented Generation (RAG) Systems</h1>
+    <p>Complete Deep-Dive Master Reference Guide (Modules 1, 2, & 3)</p>
+</header>
+
+<div class="container">
+
+    <!-- Table of Contents -->
+    <nav class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#module-1">Module 1: RAG Fundamentals and Architecture</a>
+                <ul>
+                    <li><a href="#m1-p1">Part 1: What is RAG?</a></li>
+                </ul>
+            </li>
+            <li><a href="#module-2">Module 2: Document Processing and Chunking</a>
+                <ul>
+                    <li><a href="#m2-p1">Part 1: Document Loaders in LangChain</a></li>
+                    <li><a href="#m2-p2">Part 2: Text Splitting Strategies</a></li>
+                    <li><a href="#m2-p3">Part 3: Chunking Best Practices</a></li>
+                    <li><a href="#m2-p4">Part 4: Metadata Management</a></li>
+                    <li><a href="#m2-p5">Part 5: Failure Modes, Interview Prep, & Exercises</a></li>
+                </ul>
+            </li>
+            <li><a href="#module-3">Module 3: Embeddings and Vector Representations</a>
+                <ul>
+                    <li><a href="#m3-p1">Part 1: How Embeddings Work</a></li>
+                    <li><a href="#m3-p2">Part 2: Embedding Models Overview</a></li>
+                    <li><a href="#m3-p3">Part 3: Choosing the Right Embedding Model</a></li>
+                    <li><a href="#m3-p4">Part 4: LangChain Embeddings Implementation</a></li>
+                    <li><a href="#m3-p5">Part 5: Failure Modes & Interview Preparation</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- MODULE 1 -->
+    <section id="module-1" class="module">
+        <h2 class="module-title">Module 1: RAG Fundamentals and Architecture</h2>
+        
+        <h3 id="m1-p1" class="part-title">1.1 Introduction to RAG - Complete Deep Dive</h3>
+        
+        <h4 class="topic-title">PART 1: What is RAG?</h4>
+        
+        <div class="highlight-box">
+            <strong>1. What is This?</strong><br>
+            <strong>RAG = Retrieval-Augmented Generation</strong><br>
+            In the simplest possible words:<br>
+            RAG is a technique where an AI, before answering your question, first goes and searches for relevant information from a knowledge base — and then uses that retrieved information to generate a better, more accurate answer.<br><br>
+            Think of it as giving the AI the ability to <em>"look things up"</em> before speaking[cite: 13].
+        </div>
+
+        <h4 class="topic-title">2. Why Do We Need It?</h4>
+        <p><strong>The Core Problem: LLMs Are Frozen in Time</strong>[cite: 13]</p>
+        <p>When a Large Language Model (LLM) like GPT-4 is trained, it learns from a massive dataset[cite: 13]. But after training ends — it knows nothing new[cite: 13].</p>
+        <p>Imagine a brilliant professor who[cite: 13]:</p>
+        <ul>
+            <li>Read every book ever written... but only until December 2023[cite: 13]</li>
+            <li>Has no internet access[cite: 13]</li>
+            <li>Cannot access your company's private documents[cite: 13]</li>
+            <li>Sometimes confidently makes things up when unsure (hallucination)[cite: 13]</li>
+        </ul>
+        <p>That professor is your LLM[cite: 13]. RAG solves 4 critical problems that LLMs face[cite: 13]:</p>
+        <ol>
+            <li><strong>Knowledge Cutoff:</strong> LLMs cannot answer questions about events or data after their training end date[cite: 13].</li>
+            <li><strong>Private Data Access:</strong> LLMs do not have access to proprietary enterprise files, user-specific data, or internal databases[cite: 13].</li>
+            <li><strong>Hallucinations:</strong> When uncertain, standard generative models tend to fabricate factual-sounding but incorrect information[cite: 13].</li>
+            <li><strong>Lack of Provenance:</strong> Standard LLM responses cannot easily cite exact page numbers or specific document source files[cite: 13, 14, 15].</li>
+        </ol>
+    </section>
+
+    <!-- MODULE 2 -->
+    <section id="module-2" class="module">
+        <h2 class="module-title">Module 2: Document Processing and Chunking</h2>
+        <p><em>The Foundation That Makes or Breaks Your RAG System</em>[cite: 14]</p>
+        
+        <div class="alert-box">
+            <strong>GARBAGE IN &rarr; GARBAGE RETRIEVED &rarr; GARBAGE ANSWER</strong><br>
+            The retriever can only find what was properly stored[cite: 14]. The LLM can only answer from what the retriever finds[cite: 14].<br>
+            <code>Document Processing = The Foundation of Everything in RAG</code>[cite: 14]<br>
+            A perfect LLM + perfect vector store + bad chunking = broken RAG system[cite: 14].
+        </div>
+
+        <h3 id="m2-p1" class="part-title">PART 1: Document Loaders in LangChain</h3>
+        
+        <h4 class="topic-title">1. What is a Document Loader?</h4>
+        <p><strong>Simple Definition:</strong> A Document Loader is a tool that reads raw files (PDFs, web pages, CSVs, etc.) and converts them into a standardized format that the RAG pipeline can work with[cite: 14].</p>
+        
+        <p><strong>Standard Output:</strong> Every loader outputs a LangChain <code>Document</code> object containing exactly two fields[cite: 14]:</p>
+        <pre><code>Document(
+    page_content = "The actual text content here...",
+    metadata = {
+        "source": "hr_policy.pdf",
+        "page": 3,
+        "author": "HR Department",
+        # any other useful information
+    }
+)</code></pre>
+
+        <h4 class="topic-title">2. PDF Loaders — Deep Dive</h4>
+        <p>PDF was designed for printing, not text extraction[cite: 14]. Challenges include multi-column layouts, tables, headers/footers, scanned images, mathematical formulas, embedded graphics, and footnotes[cite: 14].</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Loader</th>
+                    <th>Speed</th>
+                    <th>Accuracy</th>
+                    <th>Tables Handling</th>
+                    <th>Best Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>PyPDFLoader</strong></td>
+                    <td>Fastest[cite: 14]</td>
+                    <td>Basic[cite: 14]</td>
+                    <td>Poor[cite: 14]</td>
+                    <td>Simple text-based PDFs, quick prototyping[cite: 14].</td>
+                </tr>
+                <tr>
+                    <td><strong>PDFMinerLoader</strong></td>
+                    <td>Medium[cite: 14]</td>
+                    <td>Good[cite: 14]</td>
+                    <td>Partial[cite: 14]</td>
+                    <td>Complex text layouts, complex fonts, reading order preservation[cite: 14].</td>
+                </tr>
+                <tr>
+                    <td><strong>PDFPlumberLoader</strong></td>
+                    <td>Medium[cite: 14]</td>
+                    <td>Best[cite: 14]</td>
+                    <td>Excellent[cite: 14]</td>
+                    <td>Financial reports, research papers, explicit table structures[cite: 14].</td>
+                </tr>
+                <tr>
+                    <td><strong>UnstructuredPDFLoader</strong></td>
+                    <td>Slowest[cite: 14]</td>
+                    <td>Best[cite: 14]</td>
+                    <td>Excellent[cite: 14]</td>
+                    <td>Scanned PDFs requiring OCR, complex mixed-layout media[cite: 14].</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h5>PyPDFLoader Example:</h5>
+        <pre><code>from langchain_community.document_loaders import PyPDFLoader
+
+loader = PyPDFLoader("documents/hr_policy.pdf")
+pages = loader.load()
+
+print(f"Total pages: {len(pages)}")
+print(f"First page content: {pages[0].page_content[:200]}")
+print(f"First page metadata: {pages[0].metadata}")</code></pre>
+
+        <h5>PDFPlumberLoader Example:</h5>
+        <pre><code>from langchain_community.document_loaders import PDFPlumberLoader
+
+loader = PDFPlumberLoader("documents/financial_report.pdf")
+docs = loader.load()</code></pre>
+
+        <h5>UnstructuredPDFLoader Example:</h5>
+        <pre><code>from langchain_community.document_loaders import UnstructuredPDFLoader
+
+loader = UnstructuredPDFLoader(
+    "documents/scanned_report.pdf",
+    mode="elements",
+    strategy="hi_res"
+)
+docs = loader.load()</code></pre>
+
+        <h4 class="topic-title">3. Web Loaders</h4>
+        <p><strong>WebBaseLoader:</strong> Extract single or multiple specific URLs[cite: 14].</p>
+        <pre><code>from langchain_community.document_loaders import WebBaseLoader
+import bs4
+
+loader = WebBaseLoader(
+    web_paths=["https://docs.python.org/3/tutorial/"],
+    bs_kwargs=dict(
+        parse_only=bs4.SoupStrainer(
+            class_=("post-content", "post-title", "post-header")
+        )
+    ),
+)
+docs = loader.load()</code></pre>
+
+        <p><strong>RecursiveUrlLoader:</strong> Crawl entire websites up to a set depth[cite: 14].</p>
+        <pre><code>from langchain_community.document_loaders.recursive_url_loader import RecursiveUrlLoader
+from bs4 import BeautifulSoup
+
+def bs4_extractor(html: str) -> str:
+    soup = BeautifulSoup(html, "lxml")
+    for script in soup(["script", "style"]):
+        script.decompose()
+    return soup.get_text(separator="\n", strip=True)
+
+loader = RecursiveUrlLoader(
+    url="https://docs.langchain.com/",
+    max_depth=3,
+    extractor=bs4_extractor,
+    prevent_outside=True
+)
+docs = loader.load()</code></pre>
+
+        <h4 class="topic-title">4. Structured Data Loaders (CSV, JSON, Directory)</h4>
+        <pre><code>from langchain_community.document_loaders import CSVLoader, JSONLoader, TextLoader, DirectoryLoader
+
+# CSV Loader
+csv_loader = CSVLoader(
+    file_path="data/products.csv",
+    source_column="product_id"
+)
+
+# JSON Loader
+json_loader = JSONLoader(
+    file_path="data/articles.json",
+    jq_schema=".articles[]",
+    content_key="content"
+)
+
+# Directory Loader
+dir_loader = DirectoryLoader(
+    "documents/",
+    glob="**/*.txt",
+    loader_cls=TextLoader,
+    use_multithreading=True
+)</code></pre>
+
+        <h3 id="m2-p2" class="part-title">PART 2: Text Splitting Strategies</h3>
+        <h4 class="topic-title">1. Why Do We Need to Split?</h4>
+        <p>Technical constraints demand document chunking[cite: 14]:</p>
+        <ul>
+            <li><strong>Context Window Limits:</strong> Models have token bounds (e.g., GPT-4 at 128k, Claude at 200k)[cite: 14]. Large prompts increase latency and cost[cite: 14].</li>
+            <li><strong>Retrieval Precision:</strong> Focused chunks reduce retrieval noise and prevent LLM confusion[cite: 14].</li>
+            <li><strong>Embedding Quality:</strong> Dense embedding models capture precise semantics for focused chunks (128–512 tokens) better than entire books[cite: 14].</li>
+        </ul>
+
+        <h4 class="topic-title">2. RecursiveCharacterTextSplitter</h4>
+        <p>Splits hierarchically using natural separators[cite: 14]: <code>["\n\n", "\n", " ", ""]</code>[cite: 14].</p>
+        <pre><code>from langchain_text_splitters import RecursiveCharacterTextSplitter
+import tiktoken
+
+enc = tiktoken.get_encoding("cl100k_base")
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=256,
+    chunk_overlap=25,
+    length_function=lambda x: len(enc.encode(x)),
+    separators=["\n\n", "\n", " ", ""]
+)</code></pre>
+
+        <h4 class="topic-title">3. Semantic Chunking</h4>
+        <p>Detects topic transitions based on vector distance between adjacent sentences[cite: 14].</p>
+        <pre><code>from langchain_experimental.text_splitter import SemanticChunker
+from langchain_openai import OpenAIEmbeddings
+
+splitter = SemanticChunker(
+    OpenAIEmbeddings(),
+    breakpoint_threshold_type="percentile", # "percentile", "standard_deviation", or "gradient"
+    breakpoint_threshold_amount=70
+)
+docs = splitter.create_documents([long_text])</code></pre>
+
+        <h4 class="topic-title">4. Markdown and Code-Specific Splitters</h4>
+        <pre><code>from langchain_text_splitters import MarkdownTextSplitter, RecursiveCharacterTextSplitter, Language
+
+# Markdown
+md_splitter = MarkdownTextSplitter(chunk_size=200, chunk_overlap=20)
+
+# Code (Python, JS, C, Go, etc.)
+py_splitter = RecursiveCharacterTextSplitter.from_language(
+    language=Language.PYTHON,
+    chunk_size=500,
+    chunk_overlap=50
+)</code></pre>
+
+        <h3 id="m2-p3" class="part-title">PART 3: Chunking Best Practices</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Use Case</th>
+                    <th>Recommended Chunk Size</th>
+                    <th>Reasoning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Factoid Queries</td>
+                    <td>128 – 256 tokens[cite: 14]</td>
+                    <td>Single-fact precision; prevents diluted embeddings[cite: 14].</td>
+                </tr>
+                <tr>
+                    <td>General RAG (Standard)</td>
+                    <td>256 – 512 tokens[cite: 14]</td>
+                    <td>Sufficient context while preserving embedding focus[cite: 14].</td>
+                </tr>
+                <tr>
+                    <td>Complex Analysis</td>
+                    <td>512 – 1024 tokens[cite: 14]</td>
+                    <td>Captures multi-step rationale and linked concepts[cite: 14].</td>
+                </tr>
+                <tr>
+                    <td>Document Summaries</td>
+                    <td>Parent-Child / Hierarchical[cite: 14]</td>
+                    <td>Links small retrieval chunks to large contextual parents[cite: 14].</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="success-box">
+            <strong>Overlap Rule of Thumb:</strong> Maintain a <strong>10% – 20%</strong> chunk overlap relative to overall chunk size to preserve semantic continuity across chunk boundaries[cite: 14].
+        </div>
+
+        <h3 id="m2-p4" class="part-title">PART 4: Metadata Management</h3>
+        <p>Metadata enables precise, pre-retrieval and post-retrieval filtering, access control, and source attribution[cite: 14].</p>
+
+        <pre><code>from dataclasses import dataclass
+from typing import Optional
+from datetime import datetime
+
+@dataclass
+class DocumentMetadata:
+    source: str
+    source_type: str
+    document_id: str
+    document_type: str
+    department: str
+    created_at: str
+    ingested_at: str
+    access_level: str
+    chunk_index: int
+    total_chunks: int
+    page: Optional[int] = None</code></pre>
+
+        <h3 id="m2-p5" class="part-title">PART 5: Failure Modes, Interview Prep, & Exercises</h3>
+        <div class="alert-box">
+            <strong>7 Common Failure Modes:</strong>
+            <ol>
+                <li>Wrong PDF Loader Choice (e.g., using standard PyPDF on scanned images)[cite: 14].</li>
+                <li>Tiny Chunk Size (&lt; 50 tokens) creating fragmented, meaningless text[cite: 14].</li>
+                <li>Zero Overlap breaking sentences and context across boundaries[cite: 14].</li>
+                <li>Encoding Errors (missing explicit <code>utf-8</code> encoding)[cite: 14].</li>
+                <li>Inconsistent metadata schemas crashing filter operations[cite: 14].</li>
+                <li>Ingesting empty or whitespace-only documents[cite: 14].</li>
+                <li>Arbitrary splitting across data tables without structure preservation[cite: 14].</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- MODULE 3 -->
+    <section id="module-3" class="module">
+        <h2 class="module-title">Module 3: Embeddings and Vector Representations</h2>
+        <p><em>The Mathematical Heart of RAG</em>[cite: 15]</p>
+
+        <h3 id="m3-p1" class="part-title">PART 1: How Embeddings Work</h3>
+        <p>An embedding converts text into a continuous array of floating-point numbers (vector) where spatial proximity correlates directly with semantic similarity[cite: 15].</p>
+
+        <h4 class="topic-title">Distance Metrics Comparison</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Mathematical Formula</th>
+                    <th>Range</th>
+                    <th>Best Used For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cosine Similarity</strong></td>
+                    <td><code>(A · B) / (||A|| × ||B||)</code>[cite: 15]</td>
+                    <td>[-1.0, +1.0][cite: 15]</td>
+                    <td>Text & NLP; invariant to length variation[cite: 15].</td>
+                </tr>
+                <tr>
+                    <td><strong>Euclidean Distance (L2)</strong></td>
+                    <td><code>sqrt( Σ (a_i - b_i)² )</code>[cite: 15]</td>
+                    <td>[0, +∞)[cite: 15]</td>
+                    <td>Fixed-length normalized vectors, image features[cite: 15].</td>
+                </tr>
+                <tr>
+                    <td><strong>Dot Product (Inner Product)</strong></td>
+                    <td><code>Σ (a_i × b_i)</code>[cite: 15]</td>
+                    <td>(-∞, +∞)[cite: 15]</td>
+                    <td>Normalized vectors (faster, identical ranking to Cosine)[cite: 15].</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="m3-p2" class="part-title">PART 2: Embedding Models Overview</h3>
+        <p>Standard proprietary models include OpenAI's <code>text-embedding-3-small</code> (1536 dims default, scaleable down via Matryoshka learning) and <code>text-embedding-3-large</code> (3072 dims)[cite: 15].</p>
+        
+        <p>Local and open-source models (via Ollama or HuggingFace) include <code>nomic-embed-text</code>, <code>bge-large-en-v1.5</code>, and <code>all-MiniLM-L6-v2</code>[cite: 15].</p>
+
+        <pre><code>from langchain_ollama import OllamaEmbeddings
+from langchain_openai import OpenAIEmbeddings
+
+# Local Ollama Embeddings
+local_embed = OllamaEmbeddings(model="nomic-embed-text")
+
+# OpenAI Embeddings
+openai_embed = OpenAIEmbeddings(
+    model="text-embedding-3-small",
+    dimensions=1536
+)</code></pre>
+
+        <h3 id="m3-p3" class="part-title">PART 3: Choosing the Right Embedding Model</h3>
+        <div class="highlight-box">
+            <strong>MTEB (Massive Text Embedding Benchmark)</strong> evaluates models across 56 tasks[cite: 15]. For RAG architectures, focus specifically on the <strong>Retrieval (NDCG@10)</strong> score and verify model maximum context sequence length limits (e.g., 512 vs 8192 tokens)[cite: 15].
+        </div>
+
+        <h3 id="m3-p4" class="part-title">PART 4: LangChain Embeddings Implementation</h3>
+        <p><strong>Crucial Distinction:</strong> Use <code>embed_query()</code> for user search inputs and <code>embed_documents()</code> for knowledge base ingestion to handle asymmetric embedding models (e.g., E5 or BGE)[cite: 15].</p>
+
+        <pre><code># Correct usage pattern
+query_vector = embeddings.embed_query("What is the vacation policy?")
+doc_vectors = embeddings.embed_documents(["Policy text block 1...", "Policy text block 2..."])</code></pre>
+
+        <h3 id="m3-p5" class="part-title">PART 5: Failure Modes & Interview Preparation</h3>
+        <div class="warning-box">
+            <strong>Critical Embedding Pitfalls:</strong>
+            <ul>
+                <li><strong>Model Mismatch:</strong> Indexing documents with one embedding model and querying with another yields random vector alignment[cite: 15].</li>
+                <li><strong>Truncation Loss:</strong> Exceeding max model sequence bounds silently drops trailing chunk tokens[cite: 15].</li>
+                <li><strong>Method Misuse:</strong> Invoking <code>embed_documents</code> on user queries in asymmetric retrieval setups degrades precision[cite: 15].</li>
+                <li><strong>Domain Mismatch:</strong> Using general web embeddings on complex clinical, legal, or financial nomenclature[cite: 15].</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>Complete RAG Architecture & Ingestion Guide &bull; Generated from Primary Module Reference Manuals</p>
+</footer>
+
+</body>
+</html>
